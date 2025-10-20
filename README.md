@@ -12,6 +12,11 @@ This repository contains code, demos, benchmark scripts, and instructions for **
 
 ## 🔗 Download the Model
 
+**Ollama** 🚀 (Recommended): [antconsales/antonio-gemma3-smart-q4](https://ollama.com/antconsales/antonio-gemma3-smart-q4)
+```bash
+ollama pull antconsales/antonio-gemma3-smart-q4
+```
+
 **Hugging Face**: [chill123/antonio-gemma3-smart-q4](https://huggingface.co/chill123/antonio-gemma3-smart-q4)
 
 Two versions available:

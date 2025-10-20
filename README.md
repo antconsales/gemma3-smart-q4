@@ -8,7 +8,7 @@ This repository contains code, demos, and instructions for using **Gemma3 Smart 
 
 ## 🔗 Download the Model
 
-**Hugging Face**: [chill123/gemma3-smart-q4](https://huggingface.co/chill123/gemma3-smart-q4)
+**Hugging Face**: [chill123/antonio-gemma3-smart-q4](https://huggingface.co/chill123/antonio-gemma3-smart-q4)
 
 Two versions available:
 - **Q4_0** (687 MB) ⭐ **Recommended** - Faster speed, ~3.67 tokens/s
@@ -21,7 +21,7 @@ Two versions available:
 ```bash
 # Option 1: Pull from Hugging Face
 cat > Modelfile <<'MODELFILE'
-FROM hf.co/chill123/gemma3-smart-q4/gemma3-1b-q4_0.gguf
+FROM hf.co/chill123/antonio-gemma3-smart-q4/gemma3-1b-q4_0.gguf
 
 PARAMETER temperature 0.7
 PARAMETER top_p 0.9

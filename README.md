@@ -27,8 +27,51 @@ Two versions available:
 
 ## 🚀 Quick Start
 
+**⚠️ IMPORTANT**: To enable bilingual behavior, you **must** create a Modelfile with the bilingual SYSTEM prompt (shown below). Simply running `ollama pull` without the Modelfile will result in English-only responses.
+
+### Option 1: Use Published Ollama Model (Recommended)
+
 ```bash
-# Option 1: Pull from Hugging Face
+# Step 1: Pull the model
+ollama pull antconsales/antonio-gemma3-smart-q4
+
+# Step 2: Create Modelfile with bilingual configuration
+cat > Modelfile <<'MODELFILE'
+FROM antconsales/antonio-gemma3-smart-q4
+
+PARAMETER temperature 0.7
+PARAMETER top_p 0.9
+PARAMETER num_ctx 1024
+PARAMETER num_thread 4
+PARAMETER num_batch 32
+PARAMETER repeat_penalty 1.05
+PARAMETER stop "<end_of_turn>"
+PARAMETER stop "</s>"
+
+SYSTEM """You are an offline AI assistant running on a Raspberry Pi. You MUST detect the user's language and respond in the SAME language:
+
+- If the user writes in Italian, respond ONLY in Italian
+- If the user writes in English, respond ONLY in English
+
+Sei un assistente AI offline su Raspberry Pi. DEVI rilevare la lingua dell'utente e rispondere nella STESSA lingua:
+
+- Se l'utente scrive in italiano, rispondi SOLO in italiano
+- Se l'utente scrive in inglese, rispondi SOLO in inglese
+
+Always match the user's language choice."""
+MODELFILE
+
+# Step 3: Create configured model
+ollama create gemma3-bilingual -f Modelfile
+
+# Step 4: Test it!
+ollama run gemma3-bilingual "Ciao! Come stai?"
+ollama run gemma3-bilingual "Hello! How are you?"
+```
+
+### Option 2: Pull Directly from Hugging Face
+
+```bash
 cat > Modelfile <<'MODELFILE'
 FROM hf://chill123/antonio-gemma3-smart-q4/gemma3-1b-q4_0.gguf
 
@@ -41,15 +84,13 @@ PARAMETER repeat_penalty 1.05
 PARAMETER stop "<end_of_turn>"
 PARAMETER stop "</s>"
 
-SYSTEM """
-You are an offline AI assistant running on a Raspberry Pi. Automatically detect the user's language (Italian or English) and respond in the same language. Be concise, practical, and helpful.
+SYSTEM """You are an offline AI assistant. Detect user language (Italian/English) and respond in the same language.
 
-Sei un assistente AI offline che opera su Raspberry Pi. Rileva automaticamente la lingua dell'utente (italiano o inglese) e rispondi nella stessa lingua. Sii conciso, pratico e utile.
-"""
+Sei un assistente AI offline. Rileva la lingua dell'utente (italiano/inglese) e rispondi nella stessa lingua."""
 MODELFILE
 
-ollama create gemma3-smart-q4 -f Modelfile
-ollama run gemma3-smart-q4 "Hello! Who are you?"
+ollama create gemma3-bilingual -f Modelfile
+ollama run gemma3-bilingual
 ```
 
 ---
